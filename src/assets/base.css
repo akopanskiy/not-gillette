@@ -1,0 +1,22 @@
+html {
+  box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+*:focus {
+  outline: none;
+}
+body {
+  margin: 0;
+  padding: 10px;
+  font-family: Roboto, sans-serif;
+  letter-spacing: 0.03em;
+}
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
