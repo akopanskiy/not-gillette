@@ -27,7 +27,7 @@ export default {
     <ul>
       <div class="movie-container" v-for="movie in movieTrend" :key="movie.id">
         <li>
-          <router-link :to="'/movie/' + movie.id + `?name=${movie.title}`">
+          <router-link :to="'/movie/' + movie.id">
             <img :src="getImage(movie.poster_path)" alt="movie.title" />
           </router-link>
         </li>

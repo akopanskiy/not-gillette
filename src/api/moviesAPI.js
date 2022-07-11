@@ -14,3 +14,9 @@ export const fetchMoviesPage = query => {
 export const fetchMovieDetailsPage = movieId => {
   return axios.get(`${URL}movie/${movieId}?api_key=${KEY}&language=en-US`);
 };
+
+export const fetchCast = movieId => {
+  return axios.get(
+    `${URL}movie/${movieId}/credits?api_key=${KEY}&language=en-US`,
+  );
+};

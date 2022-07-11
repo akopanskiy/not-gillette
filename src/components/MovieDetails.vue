@@ -69,7 +69,7 @@ export default {
         </h3>
         <h3 class="details-name">
           Середня оцінка:
-          <span>
+          <span class="details-info">
             {{ movie.vote_average }}
           </span>
         </h3>
@@ -79,6 +79,12 @@ export default {
       <h2 class="overview-title">Про що фільм {{ movie.title }}</h2>
       <p>{{ movie.overview }}</p>
     </div>
+    <hr class="hr-shadow" />
+    <h2 class="overview-title">Додаткова інформація</h2>
+    <router-link :to="'/movie/' + movie.id + '/cast'">
+      <h3>Актори</h3>
+    </router-link>
+    <hr class="hr-shadow" />
   </div>
 </template>
 
@@ -123,6 +129,14 @@ export default {
 .overview-title {
   display: flex;
   justify-content: center;
-  color: mediumblue;
+}
+
+.hr-shadow {
+  margin: 0;
+  padding-bottom: 0;
+  height: 10px;
+  border: none;
+  border-top: 1px solid #333;
+  box-shadow: 0 10px 10px -10px #8c8b8b inset;
 }
 </style>

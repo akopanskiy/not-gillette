@@ -26,16 +26,15 @@ export default {
 <template>
   <div class="movie-container">
     <MovieDetails :movie="movieDetails" />
+
+    <router-view></router-view>
   </div>
 </template>
 
 <style scoped>
 .movie-container {
-  display: flex;
   width: 80vw;
   height: 100vh;
-  background: rgb(230, 170, 148);
-  border: 1px solid black;
   margin-right: auto;
   margin-left: auto;
   padding: 5px;
