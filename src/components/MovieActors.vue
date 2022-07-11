@@ -1,7 +1,9 @@
 <script>
 import { fetchCast } from '@/api/moviesAPI';
+import { getImage } from '@/mixins/mixins';
 export default {
   name: 'MovieActors',
+  mixins: [getImage],
   data() {
     return {
       cast: {},
@@ -17,18 +19,19 @@ export default {
       this.cast = actors;
     });
   },
-  methods: {
-    getImage(url) {
-      return `https://image.tmdb.org/t/p/w200${url}`;
-    },
-  },
 };
 </script>
 
 <template>
   <ul class="cast">
     <li class="cast-item" v-for="actor in cast" :key="actor.id">
-      <img class="img-hero" :src="getImage(actor.profile_path)" alt="" />
+      <img
+        v-if="actor.profile_path !== null"
+        class="img-hero"
+        :src="getImage(actor.profile_path, 200)"
+        alt=""
+      />
+      <img v-else src="../assets/default.jpg" class="img-hero" />
       <h4 class="actor-name">{{ actor.name }}</h4>
       <p class="actor-hero">{{ actor.character }}</p>
     </li>

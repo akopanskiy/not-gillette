@@ -5,7 +5,7 @@ export default {
   name: 'MovieReviews',
   data() {
     return {
-      reviews: {},
+      reviews: [],
       movieId: '',
     };
   },
@@ -16,19 +16,19 @@ export default {
     fetchReviews(this.movieId).then(res => {
       const result = res.data.results;
       this.reviews = result;
-      console.log(this.reviews);
     });
   },
 };
 </script>
 
 <template>
-  <ul class="reviews">
+  <ul v-if="reviews.length > 0" class="reviews">
     <li v-for="review in reviews" :key="review.id">
       <h4 class="review-name">{{ review.author_details.username }}</h4>
       <p class="review-description">{{ review.content }}</p>
     </li>
   </ul>
+  <h4 v-else>We don`t have any reviews for this movie.</h4>
 </template>
 
 <style scoped>

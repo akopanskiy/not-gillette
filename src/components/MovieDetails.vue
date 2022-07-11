@@ -1,15 +1,12 @@
 <script>
+import { getImage } from '@/mixins/mixins';
 export default {
   name: 'MovieDetails',
+  mixins: [getImage],
   props: {
     movie: {
       type: Object,
       required: true,
-    },
-  },
-  methods: {
-    getImage(url) {
-      return `https://image.tmdb.org/t/p/w300${url}`;
     },
   },
 };
@@ -20,7 +17,7 @@ export default {
     <div class="container">
       <img
         class="movie-poster"
-        :src="getImage(movie.poster_path)"
+        :src="getImage(movie.poster_path, 300)"
         alt="movie.title"
       />
       <div class="movie-info">
@@ -83,13 +80,15 @@ export default {
 
     <hr class="hr-shadow" />
     <h2 class="overview-title">Додаткова інформація</h2>
-    <router-link :to="'/movie/' + movie.id + '/cast'">
-      <h3>Актори</h3>
-    </router-link>
+    <div class="add-info-container">
+      <router-link :to="'/movie/' + movie.id + '/cast'">
+        <h3>Актори</h3>
+      </router-link>
 
-    <router-link :to="'/movie/' + movie.id + '/reviews'">
-      <h3>Відгуки</h3>
-    </router-link>
+      <router-link :to="'/movie/' + movie.id + '/reviews'">
+        <h3>Відгуки</h3>
+      </router-link>
+    </div>
     <hr class="hr-shadow" />
   </div>
 </template>
@@ -113,18 +112,15 @@ export default {
   justify-content: center;
   width: calc(80vw - 300px);
 }
-
 .details-name {
   color: blueviolet;
   margin-top: 10px;
   margin-bottom: 10px;
 }
-
 .details-info {
   color: black;
   font-size: 16px;
 }
-
 .overview {
   display: block;
   width: 80vw;
@@ -136,7 +132,10 @@ export default {
   display: flex;
   justify-content: center;
 }
-
+.add-info-container {
+  display: flex;
+  justify-content: space-evenly;
+}
 .hr-shadow {
   margin: 0;
   padding-bottom: 0;

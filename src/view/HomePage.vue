@@ -1,7 +1,9 @@
 <script>
 import { fetchHomePage } from '../api/moviesAPI';
+import { getImage } from '@/mixins/mixins';
 export default {
   name: 'HomePage',
+  mixins: [getImage],
   data() {
     return {
       movieTrend: [],
@@ -11,13 +13,7 @@ export default {
     fetchHomePage().then(res => {
       const trend = res.data.results;
       this.movieTrend = [...trend];
-      console.log(this.movieTrend);
     });
-  },
-  methods: {
-    getImage(url) {
-      return `https://image.tmdb.org/t/p/w300${url}`;
-    },
   },
 };
 </script>
@@ -28,7 +24,7 @@ export default {
       <div class="movie-container" v-for="movie in movieTrend" :key="movie.id">
         <li>
           <router-link :to="'/movie/' + movie.id">
-            <img :src="getImage(movie.poster_path)" alt="movie.title" />
+            <img :src="getImage(movie.poster_path, 300)" alt="movie.title" />
           </router-link>
         </li>
       </div>
