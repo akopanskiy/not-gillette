@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../view/HomePage';
 import SearchMovie from '../view/SearchMovie';
-import MovieDetails from '../view/MovieDetails';
+import MovieDetailsPage from '../view/MovieDetailsPage';
 import NotFound from '../view/NotFound';
 
 const routes = [
@@ -15,7 +15,7 @@ const routes = [
   },
   {
     path: '/movie/:movieId',
-    component: MovieDetails,
+    component: MovieDetailsPage,
   },
   {
     path: '/:notFound(.*)',
