@@ -75,14 +75,20 @@ export default {
         </h3>
       </div>
     </div>
+
     <div class="overview">
       <h2 class="overview-title">Про що фільм {{ movie.title }}</h2>
       <p>{{ movie.overview }}</p>
     </div>
+
     <hr class="hr-shadow" />
     <h2 class="overview-title">Додаткова інформація</h2>
     <router-link :to="'/movie/' + movie.id + '/cast'">
       <h3>Актори</h3>
+    </router-link>
+
+    <router-link :to="'/movie/' + movie.id + '/reviews'">
+      <h3>Відгуки</h3>
     </router-link>
     <hr class="hr-shadow" />
   </div>

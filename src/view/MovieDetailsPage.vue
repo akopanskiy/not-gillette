@@ -17,7 +17,6 @@ export default {
     fetchMovieDetailsPage(this.movieId).then(res => {
       const movie = res.data;
       this.movieDetails = movie;
-      console.log(this.movieDetails);
     });
   },
 };

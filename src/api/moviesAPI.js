@@ -20,3 +20,9 @@ export const fetchCast = movieId => {
     `${URL}movie/${movieId}/credits?api_key=${KEY}&language=en-US`,
   );
 };
+
+export const fetchReviews = movieId => {
+  return axios.get(
+    `${URL}movie/${movieId}/reviews?api_key=${KEY}&language=en-US`,
+  );
+};
