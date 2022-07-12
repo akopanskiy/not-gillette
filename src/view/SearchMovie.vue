@@ -49,10 +49,12 @@ export default {
           :key="movie.id"
         >
           <li>
-            <img
-              :src="getImage(movie.poster_path, 300)"
-              alt="movie.original_title"
-            />
+            <router-link :to="'/movie/' + movie.id">
+              <img
+                :src="getImage(movie.poster_path, 300)"
+                alt="movie.original_title"
+              />
+            </router-link>
           </li>
         </div>
       </ul>

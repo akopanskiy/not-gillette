@@ -1,11 +1,10 @@
 <script>
-import { fetchReviews } from '@/api/moviesAPI';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'MovieReviews',
   data() {
     return {
-      reviews: [],
       movieId: '',
     };
   },
@@ -13,17 +12,20 @@ export default {
     this.movieId = this.$route.params.movieId;
   },
   mounted() {
-    fetchReviews(this.movieId).then(res => {
-      const result = res.data.results;
-      this.reviews = result;
-    });
+    this.setReviews(this.movieId);
+  },
+  computed: {
+    ...mapGetters(['getReviews']),
+  },
+  methods: {
+    ...mapActions(['setReviews']),
   },
 };
 </script>
 
 <template>
-  <ul v-if="reviews.length > 0" class="reviews">
-    <li v-for="review in reviews" :key="review.id">
+  <ul v-if="getReviews.length > 0" class="reviews">
+    <li v-for="review in getReviews" :key="review.id">
       <h4 class="review-name">{{ review.author_details.username }}</h4>
       <p class="review-description">{{ review.content }}</p>
     </li>

@@ -1,12 +1,12 @@
 <script>
-import { fetchCast } from '@/api/moviesAPI';
 import { getImage } from '@/mixins/mixins';
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   name: 'MovieActors',
   mixins: [getImage],
   data() {
     return {
-      cast: {},
       movieId: '',
     };
   },
@@ -14,17 +14,20 @@ export default {
     this.movieId = this.$route.params.movieId;
   },
   mounted() {
-    fetchCast(this.movieId).then(res => {
-      const actors = res.data.cast;
-      this.cast = actors;
-    });
+    this.setCast(this.movieId);
+  },
+  computed: {
+    ...mapGetters(['getCast']),
+  },
+  methods: {
+    ...mapActions(['setCast']),
   },
 };
 </script>
 
 <template>
   <ul class="cast">
-    <li class="cast-item" v-for="actor in cast" :key="actor.id">
+    <li class="cast-item" v-for="actor in getCast" :key="actor.id">
       <img
         v-if="actor.profile_path !== null"
         class="img-hero"
