@@ -1,13 +1,26 @@
 <script>
 import { getImage } from '@/mixins/mixins';
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   name: 'MovieDetails',
   mixins: [getImage],
-  props: {
-    movie: {
-      type: Object,
-      required: true,
-    },
+  data() {
+    return {
+      movieId: '',
+    };
+  },
+  created() {
+    this.movieId = this.$route.params.movieId;
+  },
+  mounted() {
+    this.setMovieDetails(this.movieId);
+  },
+  computed: {
+    ...mapGetters(['getMovieDetails']),
+  },
+  methods: {
+    ...mapActions(['setMovieDetails']),
   },
 };
 </script>
@@ -17,22 +30,22 @@ export default {
     <div class="container">
       <img
         class="movie-poster"
-        :src="getImage(movie.poster_path, 300)"
+        :src="getImage(getMovieDetails.poster_path, 300)"
         alt="movie.title"
       />
       <div class="movie-info">
-        <h1 class="title">{{ movie.title }}</h1>
+        <h1 class="title">{{ getMovieDetails.title }}</h1>
         <h3 class="details-name">
           Дата виходу:
           <span class="details-info">
-            {{ movie.release_date }}
+            {{ getMovieDetails.release_date }}
           </span>
         </h3>
         <ul>
           <h3 class="details-name">Країна:</h3>
           <li
             class="details-info"
-            v-for="countries in movie.production_countries"
+            v-for="countries in getMovieDetails.production_countries"
             :key="countries.id"
           >
             {{ countries.name }}
@@ -42,7 +55,7 @@ export default {
           <h3 class="details-name">Студія:</h3>
           <li
             class="details-info"
-            v-for="companies in movie.production_companies"
+            v-for="companies in getMovieDetails.production_companies"
             :key="companies.id"
           >
             {{ companies.name }}
@@ -52,7 +65,7 @@ export default {
           <h3 class="details-name">Жанр:</h3>
           <li
             class="details-info"
-            v-for="genre in movie.genres"
+            v-for="genre in getMovieDetails.genres"
             :key="genre.id"
           >
             {{ genre.name }}
@@ -61,31 +74,31 @@ export default {
         <h3 class="details-name">
           Популярність:
           <span class="details-info">
-            {{ movie.popularity }}
+            {{ getMovieDetails.popularity }}
           </span>
         </h3>
         <h3 class="details-name">
           Середня оцінка:
           <span class="details-info">
-            {{ movie.vote_average }}
+            {{ getMovieDetails.vote_average }}
           </span>
         </h3>
       </div>
     </div>
 
     <div class="overview">
-      <h2 class="overview-title">Про що фільм {{ movie.title }}</h2>
-      <p>{{ movie.overview }}</p>
+      <h2 class="overview-title">Про що фільм {{ getMovieDetails.title }}</h2>
+      <p>{{ getMovieDetails.overview }}</p>
     </div>
 
     <hr class="hr-shadow" />
     <h2 class="overview-title">Додаткова інформація</h2>
     <div class="add-info-container">
-      <router-link :to="'/movie/' + movie.id + '/cast'">
+      <router-link :to="'/movie/' + getMovieDetails.id + '/cast'">
         <h3>Актори</h3>
       </router-link>
 
-      <router-link :to="'/movie/' + movie.id + '/reviews'">
+      <router-link :to="'/movie/' + getMovieDetails.id + '/reviews'">
         <h3>Відгуки</h3>
       </router-link>
     </div>

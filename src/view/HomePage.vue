@@ -1,19 +1,17 @@
 <script>
-import { fetchHomePage } from '../api/moviesAPI';
+import { mapGetters, mapActions } from 'vuex';
 import { getImage } from '@/mixins/mixins';
 export default {
   name: 'HomePage',
   mixins: [getImage],
-  data() {
-    return {
-      movieTrend: [],
-    };
+  mounted() {
+    this.setMovieTrend();
   },
-  created() {
-    fetchHomePage().then(res => {
-      const trend = res.data.results;
-      this.movieTrend = [...trend];
-    });
+  computed: {
+    ...mapGetters(['getMovieTrend']),
+  },
+  methods: {
+    ...mapActions(['setMovieTrend']),
   },
 };
 </script>
@@ -21,7 +19,11 @@ export default {
 <template>
   <div>
     <ul>
-      <div class="movie-container" v-for="movie in movieTrend" :key="movie.id">
+      <div
+        class="movie-container"
+        v-for="movie in getMovieTrend"
+        :key="movie.id"
+      >
         <li>
           <router-link :to="'/movie/' + movie.id">
             <img :src="getImage(movie.poster_path, 300)" alt="movie.title" />

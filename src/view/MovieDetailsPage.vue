@@ -1,30 +1,15 @@
 <script>
 import MovieDetails from '../components/MovieDetails.vue';
-import { fetchMovieDetailsPage } from '@/api/moviesAPI';
+
 export default {
   name: 'MovieDetailsPage',
   components: { MovieDetails },
-  data() {
-    return {
-      movieDetails: {},
-      movieId: '',
-    };
-  },
-  created() {
-    this.movieId = this.$route.params.movieId;
-  },
-  mounted() {
-    fetchMovieDetailsPage(this.movieId).then(res => {
-      const movie = res.data;
-      this.movieDetails = movie;
-    });
-  },
 };
 </script>
 
 <template>
   <div class="movie-container">
-    <MovieDetails :movie="movieDetails" />
+    <MovieDetails />
 
     <router-view></router-view>
   </div>

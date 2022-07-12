@@ -4,7 +4,7 @@
       Пс... Тут нічого немає...
       <router-link to="/">Повертайся назад!)</router-link>
     </h3>
-    <img src="../assets/notfound.jpg" alt="cats" />
+    <img src="../assets/notfound.jpg" alt="some cats" />
   </div>
 </template>
 

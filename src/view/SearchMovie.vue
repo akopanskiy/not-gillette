@@ -1,24 +1,23 @@
 <script>
-import { fetchMoviesPage } from '../api/moviesAPI';
+import { mapGetters, mapActions } from 'vuex';
+import { getImage } from '@/mixins/mixins';
 export default {
+  mixins: [getImage],
   data() {
     return {
       query: '',
-      searchMovie: [],
     };
   },
+  computed: {
+    ...mapGetters(['getSearchMovie']),
+  },
   methods: {
+    ...mapActions(['setSearchMovie']),
     handleChange(query) {
       if (this.query !== '') {
-        fetchMoviesPage(query).then(res => {
-          const searchQuery = res.data.results;
-          this.searchMovie = [...searchQuery];
-          this.query = '';
-        });
+        this.setSearchMovie(query);
+        this.query = '';
       }
-    },
-    getImage(url) {
-      return `https://image.tmdb.org/t/p/w300${url}`;
     },
   },
 };
@@ -46,12 +45,12 @@ export default {
       <ul>
         <div
           class="movie-container"
-          v-for="movie in searchMovie"
+          v-for="movie in getSearchMovie"
           :key="movie.id"
         >
           <li>
             <img
-              :src="getImage(movie.poster_path)"
+              :src="getImage(movie.poster_path, 300)"
               alt="movie.original_title"
             />
           </li>
