@@ -95,11 +95,11 @@ export default {
     <h2 class="overview-title">Додаткова інформація</h2>
     <div class="add-info-container">
       <router-link :to="'/movie/' + getMovieDetails.id + '/cast'">
-        <h3>Актори</h3>
+        <h3 class="additional-name">Актори</h3>
       </router-link>
 
       <router-link :to="'/movie/' + getMovieDetails.id + '/reviews'">
-        <h3>Відгуки</h3>
+        <h3 class="additional-name">Відгуки</h3>
       </router-link>
     </div>
     <hr class="hr-shadow" />
@@ -144,6 +144,8 @@ export default {
 .overview-title {
   display: flex;
   justify-content: center;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 .add-info-container {
   display: flex;
@@ -156,5 +158,28 @@ export default {
   border: none;
   border-top: 1px solid #333;
   box-shadow: 0 10px 10px -10px #8c8b8b inset;
+}
+
+.additional-name {
+  margin: 0;
+}
+
+a {
+  display: inline-block;
+  text-decoration: none;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  color: rgb(176, 50, 50);
+  padding: 0.5rem 1.5rem;
+  margin-bottom: 10px;
+}
+
+a:hover,
+a:active,
+a.router-link-active {
+  color: #f1a80a;
+  border-color: #f1a80a;
+  background-color: #1a037e;
 }
 </style>

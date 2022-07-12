@@ -23,4 +23,29 @@ export default {};
   background-color: palevioletred;
   align-items: center;
 }
+ul {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+a {
+  display: inline-block;
+  text-decoration: none;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  color: white;
+  padding: 0.5rem 1.5rem;
+}
+
+a:hover,
+a:active,
+a.router-link-active {
+  color: #f1a80a;
+  border-color: #f1a80a;
+  background-color: #1a037e;
+}
 </style>

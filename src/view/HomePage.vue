@@ -1,10 +1,12 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { getImage } from '@/mixins/mixins';
+import { fetchList } from '@/api/moviesAPI';
 export default {
   name: 'HomePage',
   mixins: [getImage],
   mounted() {
+    fetchList().then(res => console.log(res.data));
     this.setMovieTrend();
   },
   computed: {
