@@ -1,18 +1,29 @@
 <script>
-import { mapGetters, mapActions } from 'vuex';
 import { getImage } from '@/mixins/mixins';
-// import { fetchSelect } from '@/api/moviesAPI';
+import { mapGetters, mapActions } from 'vuex';
 export default {
-  name: 'HomePage',
+  name: 'SelectMovie',
   mixins: [getImage],
-  mounted() {
-    this.setMovieTrend();
+  data() {
+    return {
+      genreId: '',
+    };
+  },
+  created() {
+    this.genreId = this.$route.params.genreId;
+    this.setSelectGenre(this.genreId);
   },
   computed: {
-    ...mapGetters(['getMovieTrend']),
+    ...mapGetters(['getSelectGenre']),
   },
   methods: {
-    ...mapActions(['setMovieTrend']),
+    ...mapActions(['setSelectGenre']),
+  },
+  watch: {
+    $route(newRoute) {
+      this.genreId = newRoute.params.genreId;
+      this.setSelectGenre(this.genreId);
+    },
   },
 };
 </script>
@@ -22,7 +33,7 @@ export default {
     <ul>
       <div
         class="movie-container"
-        v-for="movie in getMovieTrend"
+        v-for="movie in getSelectGenre"
         :key="movie.id"
       >
         <li>

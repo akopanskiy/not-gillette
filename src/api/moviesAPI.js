@@ -30,3 +30,7 @@ export const fetchReviews = movieId => {
 export const fetchList = () => {
   return axios.get(`${URL}genre/movie/list?api_key=${KEY}&language=en-US`);
 };
+
+export const fetchSelect = id => {
+  return axios.get(`${URL}discover/movie?api_key=${KEY}&with_genres=${id}`);
+};
