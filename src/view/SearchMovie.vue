@@ -1,8 +1,9 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import { getImage } from '@/mixins/mixins';
+import MovieList from '@/components/MovieList.vue';
+
 export default {
-  mixins: [getImage],
+  components: { MovieList },
   data() {
     return {
       query: '',
@@ -41,24 +42,7 @@ export default {
         />
       </form>
     </header>
-    <div>
-      <ul>
-        <div
-          class="movie-container"
-          v-for="movie in getSearchMovie"
-          :key="movie.id"
-        >
-          <li>
-            <router-link :to="'/movie/' + movie.id">
-              <img
-                :src="getImage(movie.poster_path, 300)"
-                alt="movie.original_title"
-              />
-            </router-link>
-          </li>
-        </div>
-      </ul>
-    </div>
+    <MovieList :movies="getSearchMovie" imageSize="300" />
   </div>
 </template>
 

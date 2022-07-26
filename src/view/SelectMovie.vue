@@ -1,9 +1,9 @@
 <script>
-import { getImage } from '@/mixins/mixins';
 import { mapGetters, mapActions } from 'vuex';
+import MovieList from '@/components/MovieList.vue';
 export default {
   name: 'SelectMovie',
-  mixins: [getImage],
+  components: { MovieList },
   data() {
     return {
       genreId: '',
@@ -12,6 +12,7 @@ export default {
   created() {
     this.genreId = this.$route.params.genreId;
     this.setSelectGenre(this.genreId);
+    this.$store.commit('setSearchMovie', []);
   },
   computed: {
     ...mapGetters(['getSelectGenre']),
@@ -29,21 +30,7 @@ export default {
 </script>
 
 <template>
-  <div>
-    <ul>
-      <div
-        class="movie-container"
-        v-for="movie in getSelectGenre"
-        :key="movie.id"
-      >
-        <li>
-          <router-link :to="'/movie/' + movie.id">
-            <img :src="getImage(movie.poster_path, 300)" alt="movie.title" />
-          </router-link>
-        </li>
-      </div>
-    </ul>
-  </div>
+  <MovieList :movies="getSelectGenre" imageSize="300" />
 </template>
 
 <style scoped>

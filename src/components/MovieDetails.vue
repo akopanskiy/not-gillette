@@ -107,6 +107,17 @@ export default {
 </template>
 
 <style scoped>
+.divtest {
+  display: flex;
+  border: 1px solid red;
+  width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.spantest {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .container {
   display: flex;
 }

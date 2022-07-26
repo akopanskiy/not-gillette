@@ -1,8 +1,8 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import { ArrowDown } from '@element-plus/icons-vue';
+import { ArrowDown, Avatar } from '@element-plus/icons-vue';
 export default {
-  components: { ArrowDown },
+  components: { ArrowDown, Avatar },
   data() {
     return {
       genre: '',
@@ -19,7 +19,6 @@ export default {
   },
 };
 </script>
-
 <template>
   <header class="header-container">
     <ul>
@@ -29,7 +28,8 @@ export default {
 
       <el-dropdown trigger="click" v-model="genre">
         <el-button type="primary">
-          Жанри<el-icon class="el-icon--right"><arrow-down /></el-icon>
+          Жанри
+          <el-icon class="el-icon--right"><arrow-down /></el-icon>
         </el-button>
         <template #dropdown>
           <el-dropdown-menu
@@ -47,6 +47,11 @@ export default {
       <li>
         <router-link class="navi" to="/search">Пошук</router-link>
       </li>
+
+      <el-link type="success" :underline="false">
+        Авторизуватися
+        <el-icon class="el-icon--right"><avatar /></el-icon>
+      </el-link>
     </ul>
   </header>
 </template>
