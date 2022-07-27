@@ -5,6 +5,7 @@ import MovieDetailsPage from '../view/MovieDetailsPage';
 import MovieActors from '../components/MovieActors';
 import MovieReviews from '../components/MovieReviews';
 import SelectMovie from '../view/SelectMovie';
+import AuthorizationUser from '../view/AuthorizationUser';
 import NotFound from '../view/NotFound';
 
 const routes = [
@@ -27,6 +28,10 @@ const routes = [
   {
     path: '/genre/:genreId',
     component: SelectMovie,
+  },
+  {
+    path: '/auth',
+    component: AuthorizationUser,
   },
   {
     path: '/:notFound(.*)',

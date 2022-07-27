@@ -48,10 +48,12 @@ export default {
         <router-link class="navi" to="/search">Пошук</router-link>
       </li>
 
-      <el-link type="success" :underline="false">
-        Авторизуватися
-        <el-icon class="el-icon--right"><avatar /></el-icon>
-      </el-link>
+      <router-link to="/auth" class="auth">
+        <el-link type="success" :underline="false">
+          Авторизуватися
+          <el-icon class="el-icon--right"><avatar /></el-icon>
+        </el-link>
+      </router-link>
     </ul>
   </header>
 </template>
@@ -92,6 +94,11 @@ ul {
 
 .dropdown-menu {
   display: block;
+}
+
+.auth {
+  display: flex;
+  align-items: center;
 }
 
 ::v-deep .el-dropdown-menu__item {
