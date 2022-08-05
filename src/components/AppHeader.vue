@@ -16,6 +16,9 @@ export default {
   },
   methods: {
     ...mapActions(['setListGenres']),
+    async logout() {
+      await this.$store.dispatch('logout');
+    },
   },
 };
 </script>
@@ -54,6 +57,8 @@ export default {
           <el-icon class="el-icon--right"><avatar /></el-icon>
         </el-link>
       </router-link>
+
+      <button @click="logout">Logout</button>
     </ul>
   </header>
 </template>

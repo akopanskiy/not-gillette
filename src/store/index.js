@@ -5,6 +5,8 @@ import cast from './modules/cast';
 import reviews from './modules/reviews';
 import listGenres from './modules/listGenres';
 import selectGenre from './modules/selectGenre';
+import auth from './modules/auth';
+import info from './modules/info';
 import { createStore } from 'vuex';
 
 export default createStore({
@@ -16,5 +18,7 @@ export default createStore({
     reviews,
     listGenres,
     selectGenre,
+    auth,
+    info,
   },
 });

@@ -1,10 +1,11 @@
 <script>
 export default {
-  name: 'AuthorizationUser',
+  name: 'RegistrationUser',
   data() {
     return {
       email: '',
       password: '',
+      name: '',
     };
   },
   methods: {
@@ -12,13 +13,14 @@ export default {
       const formData = {
         email: this.email,
         password: this.password,
+        name: this.name,
       };
-      console.log(formData);
+
       try {
-        await this.$store.dispatch('login', formData);
+        await this.$store.dispatch('register', formData);
         this.$router.push('/');
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       }
     },
   },
@@ -29,8 +31,14 @@ export default {
   <div class="overlay">
     <div class="auth-container">
       <form class="auth-form" @submit.prevent>
-        <h3 class="auth-title">Авторизація</h3>
+        <h3 class="auth-title">Реєстрація</h3>
 
+        <input
+          class="auth-field"
+          type="text"
+          placeholder="Ім'я"
+          v-model="name"
+        />
         <input
           class="auth-field"
           type="email"
@@ -44,12 +52,8 @@ export default {
           v-model="password"
         />
         <button class="auth-button" type="submit" @click="submitHandler">
-          Увійти
+          Зареєструватися
         </button>
-
-        <router-link to="/registration" class="auth-link">
-          <el-link type="primary"> Зареєструватися </el-link>
-        </router-link>
       </form>
     </div>
   </div>

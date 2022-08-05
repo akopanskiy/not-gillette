@@ -7,12 +7,15 @@ export default {
   name: 'HomePage',
   components: { MovieList },
   mixins: [getImage],
-  mounted() {
+  async mounted() {
     this.setMovieTrend();
     this.$store.commit('setSearchMovie', []);
+    if (!this.isLogin) {
+      await this.$store.dispatch('fetchInfo');
+    }
   },
   computed: {
-    ...mapGetters(['getMovieTrend']),
+    ...mapGetters(['getMovieTrend', 'isLogin']),
   },
   methods: {
     ...mapActions(['setMovieTrend']),
