@@ -1,8 +1,9 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import { ArrowDown, Avatar } from '@element-plus/icons-vue';
+import { Avatar, ArrowDown } from '@element-plus/icons-vue';
+
 export default {
-  components: { ArrowDown, Avatar },
+  components: { Avatar, ArrowDown },
   data() {
     return {
       genre: '',
@@ -12,12 +13,16 @@ export default {
     this.setListGenres();
   },
   computed: {
-    ...mapGetters(['getListGenres']),
+    ...mapGetters(['getListGenres', 'isLogin', 'getInfo']),
   },
   methods: {
     ...mapActions(['setListGenres']),
     async logout() {
       await this.$store.dispatch('logout');
+      this.$router.push('/');
+    },
+    goToProfile() {
+      this.$router.push('/profile');
     },
   },
 };
@@ -36,7 +41,7 @@ export default {
         </el-button>
         <template #dropdown>
           <el-dropdown-menu
-            class="dropdown-menu"
+            class="dropdown-menu-genre"
             v-for="genre in getListGenres"
             :key="genre.id"
           >
@@ -51,14 +56,34 @@ export default {
         <router-link class="navi" to="/search">Пошук</router-link>
       </li>
 
-      <router-link to="/auth" class="auth">
-        <el-link type="success" :underline="false">
-          Авторизуватися
-          <el-icon class="el-icon--right"><avatar /></el-icon>
-        </el-link>
-      </router-link>
-
-      <button @click="logout">Logout</button>
+      <div v-if="!isLogin" class="auth">
+        <router-link to="/auth">
+          <el-link type="success" :underline="false">
+            Авторизуватися
+            <el-icon class="el-icon--right"><avatar /></el-icon>
+          </el-link>
+        </router-link>
+      </div>
+      <div v-else>
+        <el-dropdown trigger="hover">
+          <el-button type="warning">
+            Алоха, {{ getInfo.name }}
+            <el-icon class="el-icon--right"><arrow-down /></el-icon>
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu class="dropdown-menu-profile" placement="top">
+              <el-dropdown-item>
+                <button @click="goToProfile" class="button-profile">
+                  Мої фільми
+                </button>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <button class="button-logout" @click="logout">Вихід</button>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
     </ul>
   </header>
 </template>
@@ -97,7 +122,7 @@ ul {
   background-color: #1a037e;
 }
 
-.dropdown-menu {
+.dropdown-menu-genre {
   display: block;
 }
 
@@ -108,5 +133,64 @@ ul {
 
 ::v-deep .el-dropdown-menu__item {
   padding: 0;
+}
+
+.dropdown-menu-profile {
+  display: block;
+}
+
+.button-profile {
+  position: relative;
+  display: inline-block;
+  font-weight: bold;
+  color: blue;
+  text-decoration: none;
+  line-height: 1.1;
+  padding: 0.5em 3em 0.5em 0.6em;
+  background: linear-gradient(#ecc92b, #fce25b);
+  box-shadow: 0 0 0 1px #fce25b inset, -1px 0px rgb(220, 195, 35),
+    -1px 1px rgb(192, 167, 7), -2px 1px rgb(219, 194, 34),
+    -2px 2px rgb(191, 166, 6), -3px 2px rgb(218, 193, 33),
+    -3px 3px rgb(190, 165, 5), -4px 3px rgb(217, 192, 32),
+    -4px 4px rgb(189, 164, 4), -5px 4px rgb(216, 191, 31),
+    -5px 5px rgb(188, 163, 3), -6px 5px rgb(215, 190, 30),
+    -6px 6px rgb(187, 162, 2), -7px 6px rgb(214, 189, 29),
+    -7px 7px rgb(186, 161, 1), -8px 7px rgb(213, 188, 28),
+    -8px 8px rgb(185, 160, 0), -7px 9px 1px rgba(0, 0, 0, 0.4),
+    -5px 11px 1px rgba(0, 0, 0, 0.2), -1px 13px 4px rgba(0, 0, 0, 0.2),
+    4px 16px 7px rgba(0, 0, 0, 0.3);
+  transition: 0.4s;
+  margin-bottom: 15px;
+}
+
+.button-logout {
+  position: relative;
+  display: inline-block;
+  font-weight: bold;
+  color: yellow;
+  text-decoration: none;
+  line-height: 1.1;
+  padding: 0.5em 3em 0.5em 0.6em;
+  background: linear-gradient(#1c54ae, #2161c8);
+  box-shadow: 0 0 0 1px #3652c4 inset, -1px 0px rgb(26, 60, 231),
+    -1px 1px rgb(26, 60, 231), -2px 1px rgb(58, 118, 237),
+    -2px 2px rgb(27, 61, 232), -3px 2px rgb(25, 59, 230),
+    -3px 3px rgb(28, 62, 233), -4px 3px rgb(24, 58, 229),
+    -4px 4px rgb(29, 63, 234), -5px 4px rgb(23, 57, 228),
+    -5px 5px rgb(30, 64, 235), -6px 5px rgb(22, 56, 227),
+    -6px 6px rgb(31, 65, 236), -7px 6px rgb(21, 55, 226),
+    -7px 7px rgb(32, 66, 237), -8px 7px rgb(20, 54, 225),
+    -8px 8px rgb(33, 67, 238), -7px 9px 1px rgba(0, 0, 0, 0.4),
+    -5px 11px 1px rgba(0, 0, 0, 0.2), -1px 13px 4px rgba(0, 0, 0, 0.2),
+    4px 16px 7px rgba(0, 0, 0, 0.3);
+  transition: 0.4s;
+  margin-bottom: 10px;
+}
+
+.button-profile:active,
+.button-logout:active {
+  box-shadow: none;
+  -webkit-transform: translate(-7px, 8px);
+  transform: translate(-7px, 8px);
 }
 </style>

@@ -10,7 +10,7 @@ export default {
   async mounted() {
     this.setMovieTrend();
     this.$store.commit('setSearchMovie', []);
-    if (!this.isLogin) {
+    if (this.isLogin) {
       await this.$store.dispatch('fetchInfo');
     }
   },

@@ -7,6 +7,7 @@ import MovieReviews from '../components/MovieReviews';
 import SelectMovie from '../view/SelectMovie';
 import AuthorizationUser from '../view/AuthorizationUser';
 import RegistrationUser from '../view/RegistrationUser';
+import FavoriteMovie from '../view/FavoriteMovie';
 import NotFound from '../view/NotFound';
 
 const routes = [
@@ -37,6 +38,10 @@ const routes = [
   {
     path: '/registration',
     component: RegistrationUser,
+  },
+  {
+    path: '/profile',
+    component: FavoriteMovie,
   },
   {
     path: '/:notFound(.*)',
