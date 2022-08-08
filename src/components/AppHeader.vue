@@ -141,7 +141,8 @@ ul {
 
 .button-profile {
   position: relative;
-  display: inline-block;
+  display: flex;
+  align-items: center;
   font-weight: bold;
   color: blue;
   text-decoration: none;
@@ -173,7 +174,7 @@ ul {
   padding: 0.5em 3em 0.5em 0.6em;
   background: linear-gradient(#1c54ae, #2161c8);
   box-shadow: 0 0 0 1px #3652c4 inset, -1px 0px rgb(26, 60, 231),
-    -1px 1px rgb(26, 60, 231), -2px 1px rgb(58, 118, 237),
+    -1px 1px rgb(26, 60, 231), -2px 1px rgb(26, 60, 231),
     -2px 2px rgb(27, 61, 232), -3px 2px rgb(25, 59, 230),
     -3px 3px rgb(28, 62, 233), -4px 3px rgb(24, 58, 229),
     -4px 4px rgb(29, 63, 234), -5px 4px rgb(23, 57, 228),

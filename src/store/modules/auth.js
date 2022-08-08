@@ -1,8 +1,9 @@
 import firebase from 'firebase/compat/app';
 const actions = {
-  async login({ commit }, { email, password }) {
+  async login({ dispatch, commit }, { email, password }) {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
+      dispatch('fetchMovie');
       commit('changeIsLogin', true);
     } catch (e) {
       console.log(e);
@@ -13,13 +14,11 @@ const actions = {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
     const uid = await dispatch('getUserId');
     await firebase.database().ref(`/users/${uid}/info`).set({
-      movies: [],
       name,
     });
   },
   getUserId() {
     const user = firebase.auth().currentUser;
-    console.log(user.uid);
     return user ? user.uid : null;
   },
   async logout({ commit }) {

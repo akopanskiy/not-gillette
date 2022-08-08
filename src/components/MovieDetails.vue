@@ -1,6 +1,7 @@
 <script>
 import { getImage } from '@/mixins/mixins';
 import { mapGetters, mapActions } from 'vuex';
+// import firebase from 'firebase/compat/app';
 
 export default {
   name: 'MovieDetails',
@@ -8,6 +9,7 @@ export default {
   data() {
     return {
       movieId: '',
+      disabled: false,
     };
   },
   created() {
@@ -17,10 +19,16 @@ export default {
     this.setMovieDetails(this.movieId);
   },
   computed: {
-    ...mapGetters(['getMovieDetails']),
+    ...mapGetters(['getMovieDetails', 'isLogin', 'getUserMovie']),
+    disabledAddButton() {
+      return this.getUserMovie.some(el => el.id === this.movieId);
+    },
   },
   methods: {
     ...mapActions(['setMovieDetails']),
+    async addMovieToFavorites(id, poster, title) {
+      await this.$store.dispatch('addMovie', { id, poster, title });
+    },
   },
 };
 </script>
@@ -28,11 +36,28 @@ export default {
 <template>
   <div>
     <div class="container">
-      <img
-        class="movie-poster"
-        :src="getImage(getMovieDetails.poster_path, 300)"
-        alt="movie.title"
-      />
+      <div>
+        <img
+          class="movie-poster"
+          :src="getImage(getMovieDetails.poster_path, 300)"
+          :alt="getMovieDetails.title"
+        />
+        <button
+          v-if="isLogin"
+          class="button-add"
+          type="button"
+          disabled
+          @click="
+            addMovieToFavorites(
+              movieId,
+              getMovieDetails.poster_path,
+              getMovieDetails.title,
+            )
+          "
+        >
+          Додати в Мої Фільми
+        </button>
+      </div>
       <div class="movie-info">
         <h1 class="title">{{ getMovieDetails.title }}</h1>
         <h3 class="details-name">
@@ -107,23 +132,40 @@ export default {
 </template>
 
 <style scoped>
-.divtest {
-  display: flex;
-  border: 1px solid red;
-  width: 50%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.spantest {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 .container {
   display: flex;
 }
+
 .movie-poster {
   width: 300px;
   height: 450px;
+}
+
+.button-add {
+  background-color: #2ea44f;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  color: #fff;
+  display: block;
+  font-family: -apple-system, system-ui, 'Segoe UI', Helvetica, Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  margin: 10px auto 0;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button-add:hover {
+  background-color: #f1a80a;
+}
+
+.button-add:active {
+  transform: translate(-7px, 8px);
 }
 
 .movie-info {
