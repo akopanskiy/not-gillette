@@ -1,7 +1,6 @@
 <script>
 import { getImage } from '@/mixins/mixins';
 import { mapGetters, mapActions } from 'vuex';
-// import firebase from 'firebase/compat/app';
 
 export default {
   name: 'MovieDetails',
@@ -9,7 +8,6 @@ export default {
   data() {
     return {
       movieId: '',
-      disabled: false,
     };
   },
   created() {
@@ -46,7 +44,6 @@ export default {
           v-if="isLogin"
           class="button-add"
           type="button"
-          disabled
           @click="
             addMovieToFavorites(
               movieId,

@@ -22,6 +22,7 @@ export default {
       this.$router.push('/');
     },
     goToProfile() {
+      this.$store.dispatch('fetchMovie');
       this.$router.push('/profile');
     },
   },

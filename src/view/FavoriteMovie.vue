@@ -1,5 +1,6 @@
 <script>
 import { getImage } from '@/mixins/mixins';
+import { mapGetters } from 'vuex';
 export default {
   name: 'FavoriteMovie',
   mixins: [getImage],
@@ -8,8 +9,13 @@ export default {
       myMovies: [],
     };
   },
-  created() {
-    this.myMovies = this.$store.getters.getUserMovie;
+  computed: {
+    ...mapGetters(['getUserMovie']),
+  },
+  watch: {
+    getUserMovie() {
+      this.myMovies = this.getUserMovie;
+    },
   },
 };
 </script>
