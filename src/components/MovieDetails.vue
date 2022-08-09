@@ -8,6 +8,7 @@ export default {
   data() {
     return {
       movieId: '',
+      disabled: false,
     };
   },
   created() {
@@ -20,6 +21,11 @@ export default {
     ...mapGetters(['getMovieDetails', 'isLogin', 'getUserMovie']),
     disabledAddButton() {
       return this.getUserMovie.some(el => el.id === this.movieId);
+    },
+    nameButton() {
+      return !this.disabledAddButton
+        ? 'Додати в Мої Фільми'
+        : 'Додано в улюблені';
     },
   },
   methods: {
@@ -40,10 +46,14 @@ export default {
           :src="getImage(getMovieDetails.poster_path, 300)"
           :alt="getMovieDetails.title"
         />
-        <button
+        <el-button
           v-if="isLogin"
           class="button-add"
-          type="button"
+          :disabled="disabledAddButton"
+          :style="{
+            backgroundColor: !disabledAddButton ? '#2ea44f' : 'gray',
+            margin: !disabledAddButton ? '10px auto' : '10px',
+          }"
           @click="
             addMovieToFavorites(
               movieId,
@@ -52,8 +62,8 @@ export default {
             )
           "
         >
-          Додати в Мої Фільми
-        </button>
+          {{ nameButton }}
+        </el-button>
       </div>
       <div class="movie-info">
         <h1 class="title">{{ getMovieDetails.title }}</h1>
@@ -141,28 +151,19 @@ export default {
 .button-add {
   background-color: #2ea44f;
   border: 1px solid rgba(27, 31, 35, 0.15);
-  border-radius: 6px;
   color: #fff;
-  display: block;
+  display: flex;
+  text-align: center;
   font-family: -apple-system, system-ui, 'Segoe UI', Helvetica, Arial,
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
-  padding: 6px 16px;
-  margin: 10px auto 0;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.button-add:hover {
-  background-color: #f1a80a;
+  padding: 5px 15px;
 }
 
 .button-add:active {
-  transform: translate(-7px, 8px);
+  transform: scale(0.9);
 }
 
 .movie-info {

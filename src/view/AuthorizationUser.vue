@@ -106,6 +106,12 @@ export default {
   border: 1px solid transparent;
   color: #fff;
   font-size: 15px;
+  cursor: pointer;
+}
+
+.auth-button:active {
+  transform: scale(1.1);
+  color: red;
 }
 
 ::v-deep .el-link__inner {

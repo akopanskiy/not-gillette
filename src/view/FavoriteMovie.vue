@@ -23,7 +23,9 @@ export default {
 <template>
   <el-carousel :interval="4000" type="card" height="600px">
     <el-carousel-item v-for="movie in myMovies" :key="movie.id">
-      <img :src="getImage(movie.poster, 300)" :alt="movie.title" />
+      <router-link :to="'/movie/' + movie.id">
+        <img :src="getImage(movie.poster, 300)" :alt="movie.title" />
+      </router-link>
     </el-carousel-item>
   </el-carousel>
 </template>

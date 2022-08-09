@@ -35,7 +35,7 @@ export default {
         <router-link class="navi" to="/">Головна</router-link>
       </li>
 
-      <el-dropdown trigger="click" v-model="genre">
+      <el-dropdown trigger="hover" v-model="genre">
         <el-button type="primary">
           Жанри
           <el-icon class="el-icon--right"><arrow-down /></el-icon>

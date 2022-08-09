@@ -43,7 +43,8 @@ const actions = {
   },
   async addMovie({ dispatch }, {id, poster, title}) {
     const uid = await dispatch('getUserId');
-    await firebase.database().ref(`/users/${uid}/movies`).push({id, poster, title});
+    await firebase.database().ref(`/users/${uid}/movies`).push({ id, poster, title });
+    await dispatch('fetchMovie')
    },
   async fetchMovie({ dispatch, commit }) {
     const uid = await dispatch('getUserId');
