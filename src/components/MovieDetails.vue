@@ -2,7 +2,7 @@
 import { getImage } from '@/mixins/mixins';
 import { mapGetters, mapActions } from 'vuex';
 import { Delete } from '@element-plus/icons-vue';
-// import firebase from 'firebase/compat/app';
+import firebase from 'firebase/compat/app';
 
 export default {
   name: 'MovieDetails',
@@ -36,18 +36,15 @@ export default {
     async addMovieToFavorites(id, poster, title) {
       await this.$store.dispatch('addMovie', { id, poster, title });
     },
-    // async removeMovie() {
-    //   const uid = await this.$store.dispatch('getUserId');
-    //   // const userMovie = (
-    //   //   await firebase
-    //   //     .database()
-    //   //     .ref()
-    //   //     .child('users')
-    //   //     .child(`${uid}`)
-    //   //     .child('movies')
-    //   //     .once('value')
-    //   // ).val();
-    // },
+    async removeMovie(id) {
+      const uid = await this.$store.dispatch('getUserId');
+      const movieKey = this.getUserMovie.find(el => el.id === id).key;
+      await firebase
+        .database()
+        .ref(`/users/${uid}/movies/${movieKey}`)
+        .remove();
+      this.$store.dispatch('fetchMovie');
+    },
   },
 };
 </script>

@@ -3,7 +3,6 @@ import firebase from 'firebase/compat/app';
 const state = {
   info: {},
   userMovie: [],
-  firebaseid: [],
   isLogin: false,
 };
 
@@ -13,9 +12,6 @@ const getters = {
   },
   getUserMovie(state) {
     return state.userMovie;
-  },
-  getFirebaseId(state) {
-    return state.firebase;
   },
   isLogin(state) {
     return state.isLogin;
@@ -28,9 +24,6 @@ const mutations = {
   },
   setUserMovie(state, payload) {
     state.userMovie = payload;
-  },
-  setFirebaseId(state, payload) {
-    state.firebaseid = payload;
   },
   clearInfo(state) {
     state.info = {};
@@ -58,17 +51,24 @@ const actions = {
   },
   async fetchMovie({ dispatch, commit }) {
     const uid = await dispatch('getUserId');
-    const userMovie = (
+    const movieData = (
       await firebase
         .database()
         .ref()
         .child('users')
         .child(`${uid}`)
-        .child('movies')
         .once('value')
     ).val();
-    commit('setUserMovie', Object.values(userMovie));
-    // commit('setFirebaseId', Object.keys(userMovie));
+    const userMovie = Object.entries(movieData.movies).reduce((result, el) => {
+      result.push({
+        key: el[0],
+        id: el[1].id,
+        title: el[1].title,
+        poster: el[1].poster,
+      });
+      return result;
+    }, []);
+    commit('setUserMovie', userMovie);
   },
 };
 
