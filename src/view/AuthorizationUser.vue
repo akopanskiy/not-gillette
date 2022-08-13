@@ -1,24 +1,30 @@
 <script>
+import { notify } from '../mixins/mixins';
 export default {
   name: 'AuthorizationUser',
+  mixins: [notify],
   data() {
     return {
       email: '',
       password: '',
+      isLoading: false,
     };
   },
   methods: {
     async submitHandler() {
+      this.isLoading = true;
       const formData = {
         email: this.email,
         password: this.password,
       };
       try {
         await this.$store.dispatch('login', formData);
+        this.notify('Success', 'Вхід в особистий кабінет виконано', 'success');
         this.$router.push('/');
       } catch (error) {
-        console.log(error);
+        this.notify('Error', `${error.message}`, 'error');
       }
+      this.isLoading = false;
     },
   },
 };
@@ -51,6 +57,7 @@ export default {
         </router-link>
       </form>
     </div>
+    <div v-if="isLoading" v-loading="isLoading" class="loader-container"></div>
   </div>
 </template>
 
@@ -116,5 +123,14 @@ export default {
 
 ::v-deep .el-link__inner {
   margin-top: 15px;
+}
+
+.loader-container {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
 }
 </style>

@@ -1,5 +1,5 @@
 <script>
-import { getImage } from '@/mixins/mixins';
+import { getImage, notify } from '@/mixins/mixins';
 import { mapGetters, mapActions } from 'vuex';
 import { Delete } from '@element-plus/icons-vue';
 import firebase from 'firebase/compat/app';
@@ -7,7 +7,7 @@ import firebase from 'firebase/compat/app';
 export default {
   name: 'MovieDetails',
   components: { Delete },
-  mixins: [getImage],
+  mixins: [getImage, notify],
   data() {
     return {
       movieId: '',
@@ -26,15 +26,14 @@ export default {
       return this.getUserMovie.some(el => el.id === this.movieId);
     },
     nameButton() {
-      return !this.disabledAddButton
-        ? 'Додати в Мої Фільми'
-        : 'Додано в улюблені';
+      return !this.disabledAddButton ? 'Додати в Вибрані' : 'Додано у Вибрані';
     },
   },
   methods: {
     ...mapActions(['setMovieDetails']),
     async addMovieToFavorites(id, poster, title) {
       await this.$store.dispatch('addMovie', { id, poster, title });
+      this.notify('Info', 'Фільм додано до списку улюблених.', 'info');
     },
     async removeMovie(id) {
       const uid = await this.$store.dispatch('getUserId');
@@ -43,6 +42,7 @@ export default {
         .database()
         .ref(`/users/${uid}/movies/${movieKey}`)
         .remove();
+      this.notify('Info', 'Фільм видалено зі списку улюблених.', 'info');
       this.$store.dispatch('fetchMovie');
     },
   },

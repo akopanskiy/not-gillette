@@ -7,6 +7,7 @@ export default {
   data() {
     return {
       genre: '',
+      isLoading: false,
     };
   },
   mounted() {
@@ -18,75 +19,84 @@ export default {
   methods: {
     ...mapActions(['setListGenres']),
     async logout() {
+      this.isLoading = true;
       await this.$store.dispatch('logout');
       this.$router.push('/');
+      this.isLoading = false;
     },
     goToProfile() {
+      this.isLoading = true;
       this.$store.dispatch('fetchMovie');
       this.$router.push('/profile');
+      this.isLoading = false;
     },
   },
 };
 </script>
 <template>
-  <header class="header-container">
-    <ul>
-      <li>
-        <router-link class="navi" to="/">Головна</router-link>
-      </li>
+  <div>
+    <header class="header-container">
+      <ul>
+        <li>
+          <router-link class="navi" to="/">Головна</router-link>
+        </li>
 
-      <el-dropdown trigger="hover" v-model="genre">
-        <el-button type="primary">
-          Жанри
-          <el-icon class="el-icon--right"><arrow-down /></el-icon>
-        </el-button>
-        <template #dropdown>
-          <el-dropdown-menu
-            class="dropdown-menu-genre"
-            v-for="genre in getListGenres"
-            :key="genre.id"
-          >
-            <router-link :to="'/genre/' + genre.id">
-              <el-dropdown-item>{{ genre.name }}</el-dropdown-item></router-link
-            >
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-
-      <li>
-        <router-link class="navi" to="/search">Пошук</router-link>
-      </li>
-
-      <div v-if="!isLogin" class="auth">
-        <router-link to="/auth">
-          <el-link type="success" :underline="false">
-            Авторизуватися
-            <el-icon class="el-icon--right"><avatar /></el-icon>
-          </el-link>
-        </router-link>
-      </div>
-      <div v-else>
-        <el-dropdown trigger="hover">
-          <el-button type="warning">
-            Алоха, {{ getInfo.name }}
+        <el-dropdown trigger="hover" v-model="genre">
+          <el-button type="primary">
+            Жанри
             <el-icon class="el-icon--right"><arrow-down /></el-icon>
           </el-button>
           <template #dropdown>
-            <el-dropdown-menu class="dropdown-menu-profile" placement="top">
-              <el-dropdown-item>
-                <button @click="goToProfile" class="button-profile">
-                  Мої фільми
-                </button>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <button class="button-logout" @click="logout">Вихід</button>
-              </el-dropdown-item>
+            <el-dropdown-menu
+              class="dropdown-menu-genre"
+              v-for="genre in getListGenres"
+              :key="genre.id"
+            >
+              <router-link :to="'/genre/' + genre.id">
+                <el-dropdown-item>{{
+                  genre.name
+                }}</el-dropdown-item></router-link
+              >
             </el-dropdown-menu>
           </template>
         </el-dropdown>
-      </div>
-    </ul>
-  </header>
+
+        <li>
+          <router-link class="navi" to="/search">Пошук</router-link>
+        </li>
+
+        <div v-if="!isLogin" class="auth">
+          <router-link to="/auth">
+            <el-link type="success" :underline="false">
+              Авторизуватися
+              <el-icon class="el-icon--right"><avatar /></el-icon>
+            </el-link>
+          </router-link>
+        </div>
+        <div v-else>
+          <el-dropdown trigger="click">
+            <el-button type="warning">
+              Алоха, {{ getInfo.name }}
+              <el-icon class="el-icon--right"><arrow-down /></el-icon>
+            </el-button>
+            <template #dropdown>
+              <el-dropdown-menu class="dropdown-menu-profile" placement="top">
+                <el-dropdown-item>
+                  <button @click="goToProfile" class="button-profile">
+                    Вибрані
+                  </button>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <button class="button-logout" @click="logout">Вихід</button>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
+      </ul>
+    </header>
+    <div v-if="isLoading" v-loading="isLoading" class="loader-container"></div>
+  </div>
 </template>
 
 <style scoped>
@@ -144,6 +154,7 @@ ul {
   position: relative;
   display: flex;
   align-items: center;
+  width: 90px;
   font-weight: bold;
   color: blue;
   text-decoration: none;
@@ -167,7 +178,9 @@ ul {
 
 .button-logout {
   position: relative;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  width: 90px;
   font-weight: bold;
   color: yellow;
   text-decoration: none;
@@ -194,5 +207,14 @@ ul {
   box-shadow: none;
   -webkit-transform: translate(-7px, 8px);
   transform: translate(-7px, 8px);
+}
+
+.loader-container {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
 }
 </style>

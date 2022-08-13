@@ -1,15 +1,19 @@
 <script>
+import { notify } from '@/mixins/mixins';
 export default {
   name: 'RegistrationUser',
+  mixins: [notify],
   data() {
     return {
       email: '',
       password: '',
       name: '',
+      isLoading: false,
     };
   },
   methods: {
     async submitHandler() {
+      this.isLoading = true;
       const formData = {
         email: this.email,
         password: this.password,
@@ -18,10 +22,16 @@ export default {
 
       try {
         await this.$store.dispatch('register', formData);
+        this.notify(
+          'Success',
+          'Реєстрація успішна! Вводи логін та пароль і вйо до фільмів!',
+          'success',
+        );
         this.$router.push('/auth');
-      } catch (e) {
-        console.log(e);
+      } catch (error) {
+        this.notify('Error', `${error.message}`, 'error');
       }
+      this.isLoading = false;
     },
   },
 };
@@ -56,6 +66,7 @@ export default {
         </button>
       </form>
     </div>
+    <div v-if="isLoading" v-loading="isLoading" class="loader-container"></div>
   </div>
 </template>
 
@@ -121,5 +132,14 @@ export default {
 
 ::v-deep .el-link__inner {
   margin-top: 15px;
+}
+
+.loader-container {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
 }
 </style>

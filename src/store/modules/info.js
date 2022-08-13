@@ -59,15 +59,17 @@ const actions = {
         .child(`${uid}`)
         .once('value')
     ).val();
-    const userMovie = Object.entries(movieData.movies).reduce((result, el) => {
-      result.push({
-        key: el[0],
-        id: el[1].id,
-        title: el[1].title,
-        poster: el[1].poster,
-      });
-      return result;
-    }, []);
+    const userMovie = movieData.movies
+      ? Object.entries(movieData.movies).reduce((result, el) => {
+          result.push({
+            key: el[0],
+            id: el[1].id,
+            title: el[1].title,
+            poster: el[1].poster,
+          });
+          return result;
+        }, [])
+      : [];
     commit('setUserMovie', userMovie);
   },
 };
