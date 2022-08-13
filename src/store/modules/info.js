@@ -2,7 +2,8 @@ import firebase from 'firebase/compat/app';
 
 const state = {
   info: {},
-  userMovie: {},
+  userMovie: [],
+  firebaseid: [],
   isLogin: false,
 };
 
@@ -12,6 +13,9 @@ const getters = {
   },
   getUserMovie(state) {
     return state.userMovie;
+  },
+  getFirebaseId(state) {
+    return state.firebase;
   },
   isLogin(state) {
     return state.isLogin;
@@ -24,6 +28,9 @@ const mutations = {
   },
   setUserMovie(state, payload) {
     state.userMovie = payload;
+  },
+  setFirebaseId(state, payload) {
+    state.firebaseid = payload;
   },
   clearInfo(state) {
     state.info = {};
@@ -41,16 +48,28 @@ const actions = {
     ).val();
     commit('setInfo', info);
   },
-  async addMovie({ dispatch }, {id, poster, title}) {
+  async addMovie({ dispatch }, { id, poster, title }) {
     const uid = await dispatch('getUserId');
-    await firebase.database().ref(`/users/${uid}/movies`).push({ id, poster, title });
-    await dispatch('fetchMovie')
-   },
+    await firebase
+      .database()
+      .ref(`/users/${uid}/movies`)
+      .push({ id, poster, title });
+    await dispatch('fetchMovie');
+  },
   async fetchMovie({ dispatch, commit }) {
     const uid = await dispatch('getUserId');
-    const userMovie = (await firebase.database().ref().child('users').child(`${uid}`).child('movies').once('value')).val();
-    commit('setUserMovie', Object.values(userMovie)) 
-  }
+    const userMovie = (
+      await firebase
+        .database()
+        .ref()
+        .child('users')
+        .child(`${uid}`)
+        .child('movies')
+        .once('value')
+    ).val();
+    commit('setUserMovie', Object.values(userMovie));
+    // commit('setFirebaseId', Object.keys(userMovie));
+  },
 };
 
 export default {

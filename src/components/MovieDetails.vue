@@ -1,9 +1,12 @@
 <script>
 import { getImage } from '@/mixins/mixins';
 import { mapGetters, mapActions } from 'vuex';
+import { Delete } from '@element-plus/icons-vue';
+// import firebase from 'firebase/compat/app';
 
 export default {
   name: 'MovieDetails',
+  components: { Delete },
   mixins: [getImage],
   data() {
     return {
@@ -33,6 +36,18 @@ export default {
     async addMovieToFavorites(id, poster, title) {
       await this.$store.dispatch('addMovie', { id, poster, title });
     },
+    // async removeMovie() {
+    //   const uid = await this.$store.dispatch('getUserId');
+    //   // const userMovie = (
+    //   //   await firebase
+    //   //     .database()
+    //   //     .ref()
+    //   //     .child('users')
+    //   //     .child(`${uid}`)
+    //   //     .child('movies')
+    //   //     .once('value')
+    //   // ).val();
+    // },
   },
 };
 </script>
@@ -46,24 +61,33 @@ export default {
           :src="getImage(getMovieDetails.poster_path, 300)"
           :alt="getMovieDetails.title"
         />
-        <el-button
-          v-if="isLogin"
-          class="button-add"
-          :disabled="disabledAddButton"
-          :style="{
-            backgroundColor: !disabledAddButton ? '#2ea44f' : 'gray',
-            margin: !disabledAddButton ? '10px auto' : '10px',
-          }"
-          @click="
-            addMovieToFavorites(
-              movieId,
-              getMovieDetails.poster_path,
-              getMovieDetails.title,
-            )
-          "
-        >
-          {{ nameButton }}
-        </el-button>
+        <div class="button">
+          <el-button
+            v-if="isLogin"
+            class="button-add"
+            :disabled="this.getUserMovie.some(el => el.id === this.movieId)"
+            :style="{
+              backgroundColor: !disabledAddButton ? '#2ea44f' : 'gray',
+              margin: !disabledAddButton ? '10px auto' : '10px',
+            }"
+            @click="
+              addMovieToFavorites(
+                movieId,
+                getMovieDetails.poster_path,
+                getMovieDetails.title,
+              )
+            "
+          >
+            {{ nameButton }}
+          </el-button>
+          <el-button
+            v-if="disabledAddButton"
+            type="danger"
+            class="button-remove"
+            @click="removeMovie(movieId)"
+            ><el-icon><Delete /></el-icon
+          ></el-button>
+        </div>
       </div>
       <div class="movie-info">
         <h1 class="title">{{ getMovieDetails.title }}</h1>
@@ -148,6 +172,12 @@ export default {
   height: 450px;
 }
 
+.button {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .button-add {
   background-color: #2ea44f;
   border: 1px solid rgba(27, 31, 35, 0.15);
@@ -164,6 +194,9 @@ export default {
 
 .button-add:active {
   transform: scale(0.9);
+}
+
+.button-remove {
 }
 
 .movie-info {
