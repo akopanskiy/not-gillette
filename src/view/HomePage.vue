@@ -26,5 +26,3 @@ export default {
 <template>
   <MovieList :movies="getMovieTrend" imageSize="300" />
 </template>
-
-<style scoped></style>

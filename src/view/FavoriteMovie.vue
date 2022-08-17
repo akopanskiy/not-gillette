@@ -40,10 +40,10 @@ img {
   margin-right: auto;
 }
 
-::v-deep .el-carousel__container {
+:deep(.el-carousel__container) {
   margin-top: 100px;
 }
-::v-deep .el-carousel-item--card {
+:deep(.el-carousel-item--card) {
   width: 650px;
   height: 750px;
 }

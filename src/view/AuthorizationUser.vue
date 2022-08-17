@@ -121,7 +121,7 @@ export default {
   color: red;
 }
 
-::v-deep .el-link__inner {
+:deep(.el-link__inner) {
   margin-top: 15px;
 }
 

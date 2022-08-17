@@ -142,7 +142,7 @@ ul {
   align-items: center;
 }
 
-::v-deep .el-dropdown-menu__item {
+:deep(.el-dropdown-menu__item) {
   padding: 0;
 }
 

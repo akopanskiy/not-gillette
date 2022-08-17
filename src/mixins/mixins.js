@@ -15,6 +15,7 @@ export const notify = {
         title,
         message,
         type,
+        duration: 3000
       });
     },
   },

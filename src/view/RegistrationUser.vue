@@ -130,10 +130,6 @@ export default {
   color: red;
 }
 
-::v-deep .el-link__inner {
-  margin-top: 15px;
-}
-
 .loader-container {
   height: 100vh;
   position: fixed;

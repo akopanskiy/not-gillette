@@ -193,9 +193,6 @@ export default {
   transform: scale(0.9);
 }
 
-.button-remove {
-}
-
 .movie-info {
   display: block;
   margin: 10px 25px;
